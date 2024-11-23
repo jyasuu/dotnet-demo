@@ -14,6 +14,10 @@ dotnet new console -n DemoCli
 dotnet new webapi -n ChatApi
 dotnet add package Microsoft.Extensions.Http
 
+dotnet new sln -n DotnetDemo
+dotnet sln add ChatApi/ChatApi.csproj
+dotnet sln add DemoCli/DemoCli.csproj
+dotnet build
 
 curl -X POST "http://localhost:5036/api/chatcompletion" -H "Content-Type: application/json" -d '{
   "messages": [
