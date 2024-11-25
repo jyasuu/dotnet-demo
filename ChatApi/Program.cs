@@ -1,6 +1,19 @@
 var builder = WebApplication.CreateBuilder(args);
 
 
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(
+        policy =>
+        {
+            policy.WithOrigins("*");
+        });
+});
+
+
+// Registers the required services
+builder.Services.AddOpenApi();
+
 // Load configuration from appsettings.json (this is done by default)
 builder.Services.AddSingleton<IConfiguration>(builder.Configuration);
 
@@ -56,6 +69,18 @@ app.MapGet("/weatherforecast", () =>
 .WithName("GetWeatherForecast");
 
 app.MapControllers();
+
+
+// Adds the /openapi/{documentName}.json endpoint to the application
+// app.MapOpenApi();
+
+app.UseSwaggerUI(options =>
+{
+    options.SwaggerEndpoint("/openapi/v1.json", "v1");
+});
+
+
+app.UseCors();
 
 app.Run();
 
